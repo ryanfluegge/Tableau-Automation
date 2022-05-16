@@ -1,0 +1,79 @@
+from bs4 import BeautifulSoup   # lets you parse html => need to install
+from pandas import ExcelWriter
+from selenium import webdriver
+import pandas as pd
+import datetime, time
+import os, os.path
+import itertools
+import datetime as dt
+from openpyxl import load_workbook  # lets you export to excel file => need to install
+import getpass
+
+# python dependencies
+
+global driver
+
+# Opens up Google Chrome
+def createSession(uName):
+    global driver
+    driverFP = 'C:/Users/' + uName + '/Anaconda3/chromedriver.exe'
+
+    try:
+        driver = webdriver.Chrome(executable_path=driverFP)
+    except:
+        try:
+            driverFP = 'C:/Users/' + uName + '/AppData/Roaming/Python/Python37/chromedriver.exe'
+            driver = webdriver.Chrome(executable_path=driverFP)
+        except:
+            try:            
+                driverFP = 'C:/Users/' + uName + '/AppData/Roaming/Python/Python310/chromedriver.exe'
+                driver = webdriver.Chrome(executable_path=driverFP)
+            except:
+                try:
+                    driverFP = 'C:/Users/' + uName + '/AppData/Roaming/Python/Python38/chromedriver.exe'
+                    driver = webdriver.Chrome(executable_path=driverFP)
+                except:
+                    try:
+                        driver = webdriver.Chrome()
+                    except:
+                        print("Chromedriver could not be found or was exited. Please add chromedriver to the following filepath: " + driverFP)
+                        driver.quit()
+                        return
+
+    driver.maximize_window()
+    return(driver)
+
+
+def openWebpage(driver, url):
+    driver = driver
+    driver.get(url)
+
+
+
+def getUserInfo():
+    #path = 'G:/WassUpG.xlsx'
+    #in addition to new path in C drive, also needed to add import getpass to code
+    path = r'C:\Users\.xlsx'.format(getpass.getuser())
+    wb = load_workbook(path)
+    sheet = wb.active
+
+    uName = str(sheet.cell(row=1, column = 3).value)
+    pWord = str(sheet.cell(row=2, column = 3).value)
+
+    return (uName, pWord)
+
+
+def openOfsc():
+    global driver
+    loginInfo = getUserInfo()
+    driver = createSession(loginInfo[0])
+    openWebpage(driver, '')
+
+    # Logs into DNS portal page
+    driver.find_element_by_id("okta-signin-username").send_keys(""[0])
+    driver.find_element_by_id("okta-signin-password").send_keys("")
+    driver.find_element_by_id("okta-signin-submit").click()
+    
+    
+    
+openOfsc()
