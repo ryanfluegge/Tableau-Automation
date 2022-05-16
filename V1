@@ -1,0 +1,37 @@
+from multiprocessing.connection import wait
+from telnetlib import EC
+from time import sleep
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
+
+User = ""
+Pass = ""
+
+driver = webdriver.Chrome('./chromedriver')
+
+driver.get("")
+sleep(1)
+
+driver.find_element_by_id("okta-signin-username").send_keys(User)
+sleep(1)
+driver.find_element_by_id("okta-signin-password").send_keys(Pass)
+sleep(1)
+driver.find_element_by_id("okta-signin-submit").click()
+sleep(2)
+
+driver.get("")
+
+sleep(10)
+driver.find_element_by_xpath("/html/body/div[1]/div/div[1]/span/div[2]/span/div/div[2]/span/div/div[2]/div[2]/span/span").click()
+sleep(1)
+driver.find_element_by_xpath("/html/body/div[1]/div/div[1]/span/div/div/div/div[1]/nav/ul/li[2]/div/a").click()
+sleep(1)
+driver.find_element_by_xpath("/html/body/div[1]/div/div[1]/span/div/div/div/div[2]/div[2]/div/div[2]/div/div[2]/div[1]/div/div/div[2]/div/div/div[4]/div[3]/div").click()
+sleep(1)
+driver.find_element_by_xpath("/html/body/div[1]/div/div[1]/span/div/div/div/div[2]/div[2]/div/div[2]/div/div[2]/div[1]/div/div/div[2]/div/div[1]/div[17]/div[4]/div").click()
+sleep(1)
+driver.find_element_by_xpath("/html/body/div[1]/div/div[1]/span/div/div/div/div[2]/div[2]/div/div[3]/div/div/div[2]/div[1]/div/div/div[2]/div/div/div[3]/div[4]/div/span/a").click()
+sleep(15)
